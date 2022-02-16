@@ -208,9 +208,9 @@ function App() {
     setIsRevealing(true)
     // turn this back off after all
     // chars have been revealed
-    setTimeout(() => {
-      setIsRevealing(false)
-    }, REVEAL_TIME_MS * MAX_WORD_LENGTH)
+    // setTimeout(() => {
+    //   setIsRevealing(false)
+    // }, REVEAL_TIME_MS * MAX_WORD_LENGTH)
 
     const winningWord = isWinningWord(currentGuess)
 
@@ -254,6 +254,7 @@ function App() {
         />
       </div>
       <Grid
+        isGameWon={isGameWon}
         guesses={guesses}
         currentGuess={currentGuess}
         isRevealing={isRevealing}
