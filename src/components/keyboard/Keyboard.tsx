@@ -15,8 +15,7 @@ export const Keyboard = ({
   onChar,
   onDelete,
   onEnter,
-  guesses,
-  isRevealing,
+  guesses
 }: Props) => {
   const charStatuses = getStatuses(guesses)
 
@@ -57,8 +56,6 @@ export const Keyboard = ({
             value={key}
             key={key}
             onClick={onClick}
-            status={charStatuses[key]}
-            isRevealing={isRevealing}
           />
         ))}
       </div>
@@ -68,8 +65,6 @@ export const Keyboard = ({
             value={key}
             key={key}
             onClick={onClick}
-            status={charStatuses[key]}
-            isRevealing={isRevealing}
           />
         ))}
       </div>
@@ -82,8 +77,6 @@ export const Keyboard = ({
             value={key}
             key={key}
             onClick={onClick}
-            status={charStatuses[key]}
-            isRevealing={isRevealing}
           />
         ))}
         <Key width={65.4} value="DELETE" onClick={onClick}>

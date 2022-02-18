@@ -30,17 +30,10 @@ export const Key = ({
     'flex items-center justify-center rounded mx-0.5 text-xs font-bold cursor-pointer select-none dark:text-white',
     {
       'transition ease-in-out': isRevealing,
-      'bg-slate-200 dark:bg-slate-600 hover:bg-slate-300 active:bg-slate-400': keyColor === 'default',
-      'bg-slate-400 dark:bg-slate-800 text-white': keyColor === 'black',
-      'bg-slate-400 dark:bg-yellow-600 text-white': keyColor === 'yellow',
-      'bg-slate-400 dark:bg-green-800 text-white': keyColor === 'green',
-      // 'bg-orange-500 hover:bg-orange-600 active:bg-orange-700 text-white':
-      //   status === 'correct' && isHighContrast,
-      // 'bg-cyan-500 hover:bg-cyan-600 active:bg-cyan-700 text-white':
-      //   status === 'present' && isHighContrast,
-      // 'bg-green-500 hover:bg-green-600 active:bg-green-700 text-white': keyColor === 'green',
-      // 'bg-yellow-500 hover:bg-yellow-600 active:bg-yellow-700 text-white':
-      //   status === 'present' && !isHighContrast,
+      'bg-slate-200 dark:bg-slate-600 hover:bg-slate-300 dark:hover:bg-slate-500 active:bg-slate-400': keyColor === 'default',
+      'bg-slate-800 dark:bg-slate-800 hover:bg-slate-700 dark:hover:bg-slate-700 text-white': keyColor === 'black',
+      'bg-yellow-500 dark:bg-yellow-500 hover:bg-yellow-600 dark:hover:bg-yellow-400 text-white': keyColor === 'yellow',
+      'bg-green-500 dark:bg-green-800 hover:bg-green-600 dark:hover:bg-green-500 text-white': keyColor === 'green',
     }
   )
 
@@ -56,7 +49,6 @@ export const Key = ({
   }
 
   const handleContextMenu: React.MouseEventHandler<HTMLButtonElement> = (event) => {
-    // onClick(value)
     event.currentTarget.blur()
     event.preventDefault();
     switch(keyColor) {
