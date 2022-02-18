@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import { MAX_CHALLENGES } from '../../constants/settings'
 import { CompletedRow } from './CompletedRow'
 import { CurrentRow } from './CurrentRow'
@@ -9,6 +10,11 @@ type Props = {
   currentGuess: string
   isRevealing?: boolean
   currentRowClassName: string
+}
+
+const ShowCurrent = () => {
+  const element = document.getElementById("current");
+  element?.scrollIntoView()
 }
 
 export const Grid = ({
@@ -24,7 +30,7 @@ export const Grid = ({
       : []
 
   return (
-    <div className="pb-6">
+    <div className="pb-6 max-h-90 overflow-y-auto" onAnimationStart={ShowCurrent}>
       {guesses.map((guess, i) => (
         <CompletedRow
           key={i}

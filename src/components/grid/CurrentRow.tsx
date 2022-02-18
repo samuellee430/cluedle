@@ -1,3 +1,4 @@
+import React, { useRef } from 'react'
 import { MAX_WORD_LENGTH } from '../../constants/settings'
 import { Cell } from './Cell'
 import { NumberCell } from './NumberCell'
@@ -13,7 +14,7 @@ export const CurrentRow = ({ guess, className }: Props) => {
   const classes = `flex justify-center mb-1 ${className}`
 
   return (
-    <div className={classes}>
+    <div id="current" className={classes}>
       {splitGuess.map((letter, i) => (
         <Cell key={i} value={letter} />
       ))}
