@@ -154,7 +154,7 @@ function App() {
           setSuccessAlert('')
           setIsStatsModalOpen(true)
         }, ALERT_TIME_MS)
-      }, REVEAL_TIME_MS * MAX_WORD_LENGTH)
+      }, 0 * REVEAL_TIME_MS * MAX_WORD_LENGTH)
     }
     if (isGameLost) {
       setTimeout(() => {

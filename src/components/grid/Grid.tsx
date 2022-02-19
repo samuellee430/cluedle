@@ -33,7 +33,7 @@ export const Grid = ({
         <CompletedRow
           key={i}
           guess={guess}
-          isRevealing={isRevealing && guesses.length - 1 === i}
+          isRevealing={isRevealing}
           isGameWon={isGameWon}
         />
       ))}

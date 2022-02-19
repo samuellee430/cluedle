@@ -21,7 +21,7 @@ export const Cell = ({
   position = 0,
 }: Props) => {
   const isFilled = value && !isCompleted
-  const shouldReveal = isGameWon
+  const shouldReveal = isGameWon && isRevealing
   const animationDelay = `${position * REVEAL_TIME_MS}ms`
   const isHighContrast = getStoredIsHighContrastMode()
 
@@ -37,7 +37,7 @@ export const Cell = ({
         (!isGameWon && status) || (status === 'absent' && isGameWon),
       'correct shadowed bg-green-500 text-white border-green-500':
         status === 'correct' && !isHighContrast && isGameWon,
-      'present shadowed bg-yellow-500 text-white border-yellow-500':
+      'present shadowed bg-yellow-400 text-white border-yellow-400':
         status === 'present' && !isHighContrast && isGameWon,
       'correct shadowed bg-orange-500 text-white border-orange-500':
         status === 'correct' && isHighContrast,

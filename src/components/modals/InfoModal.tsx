@@ -1,5 +1,6 @@
 import { Cell } from '../grid/Cell'
 import { NumberCell } from '../grid/NumberCell'
+import { Key } from '../keyboard/Key'
 import { BaseModal } from './BaseModal'
 
 type Props = {
@@ -16,23 +17,23 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         <br/><br/>
         Scoring: 
       </p>
-      <ul className="list-disc ml-5 text-sm text-left text-gray-500">
+      <ul className="text-sm text-left text-gray-500 dark:text-gray-300 list-disc ml-5">
           <li> 2 points if the letter is in the correct spot.</li>
           <li> 1 point if the letter is present but in the incorrect spot.</li>
           <li> 0 points if the letter is not in the word. </li>
           <li> 10 points indicates you have guessed the correct word.</li>
         </ul>
       <br/>
-      <p>
+      <p className="text-sm text-left text-gray-500 dark:text-gray-300">
         For example if the word is CRANE
       </p>
 
       <div className="flex justify-center mb-1 mt-4">
-        <Cell value="C" />
-        <Cell value="A" />
-        <Cell value="B" />
-        <Cell value="L" />
-        <Cell value="E" />
+        <Cell value="C" status="absent" />
+        <Cell value="A" status="absent" />
+        <Cell value="B" status="absent" />
+        <Cell value="L" status="absent" />
+        <Cell value="E" status="absent" />
         <NumberCell value="3" />
       </div>
       <p className="text-sm text-left text-gray-500 dark:text-gray-300">
@@ -42,15 +43,27 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
         <br/>
         Total score of 3 points for this guess.
       </p>
+      <br/>
+      <p className="text-sm text-left text-gray-500 dark:text-gray-300">
+        To help you solve the cluedle, the keys on the keyboard can be set to different colors.
+        To set the color right click if you're on a computer, or long press if you're on a mobile device.
+        The colors will cycle from gray to black to yellow to green.
+      </p>
+      <div className="flex justify-center mb-1 mt-4">
+        <Key value="A" initialKeyColor='default' onClick={() => {}}/>
+        <Key value="B" initialKeyColor='black' onClick={() => {}}/>
+        <Key value="C" initialKeyColor='yellow' onClick={() => {}}/>
+        <Key value="D" initialKeyColor='green' onClick={() => {}}/>
+        <Key value="E" initialKeyColor='default' onClick={() => {}}/>
+      </div>
 
       <p className="mt-6 italic text-sm text-gray-500 dark:text-gray-300">
-        This is an open source version of the word guessing game we all know and
-        love -{' '}
+        This project is open source -{' '}
         <a
-          href="https://github.com/cwackerfuss/react-wordle"
+          href="https://github.com/samuellee430/cluedle"
           className="underline font-bold"
         >
-          check out the code here
+          check out the code here!
         </a>{' '}
       </p>
     </BaseModal>
