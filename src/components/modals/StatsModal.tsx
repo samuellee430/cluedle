@@ -59,7 +59,7 @@ export const StatsModal = ({
       {/* <Histogram gameStats={gameStats} /> */}
       {isGameWon && (
         <h4 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
-        You solved today's word in <b>{guesses.length + 1}</b> tries!
+        You solved today's word in <b>{guesses.length}</b> tries!
       </h4>
       )}
       {(isGameLost || isGameWon) && (
