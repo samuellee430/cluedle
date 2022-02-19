@@ -21,7 +21,6 @@ export const NumberCell = ({
   const isFilled = value && !isCompleted
   const shouldReveal = isRevealing && isCompleted
   const animationDelay = `${position * REVEAL_TIME_MS}ms`
-  const isHighContrast = getStoredIsHighContrastMode()
 
   const classes = classnames(
     'flex items-center justify-center mx-0.5 text-4xl font-bold rounded dark:text-white',

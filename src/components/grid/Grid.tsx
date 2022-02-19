@@ -35,10 +35,11 @@ export const Grid = ({
           guess={guess}
           isRevealing={isRevealing}
           isGameWon={isGameWon}
+          guessIndex={i+1}
         />
       ))}
       {!isGameWon && (
-        <CurrentRow guess={currentGuess} className={currentRowClassName} />
+        <CurrentRow guess={currentGuess} className={currentRowClassName} guessIndex={guesses.length + 1}/>
       )}
     </div>
   )
