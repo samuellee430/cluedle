@@ -1,14 +1,17 @@
 import classnames from 'classnames'
 
 type Props = {
-  value?: string
+  value: string
 }
 
 export const IndexCell = ({
   value,
 }: Props) => {
   const classes = classnames(
-    'flex items-end justify-center mx-0.5 text-lg font-bold rounded dark:text-white',
+    'flex items-end mx-0.5 text-lg font-bold rounded dark:text-white',
+    {
+      'pl-2': value.length < 3
+    }
   )
 
   return (

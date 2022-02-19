@@ -57,6 +57,11 @@ export const StatsModal = ({
         {GUESS_DISTRIBUTION_TEXT}
       </h4> */}
       {/* <Histogram gameStats={gameStats} /> */}
+      {isGameWon && (
+        <h4 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100">
+        You solved today's word in <b>{guesses.length + 1}</b> tries!
+      </h4>
+      )}
       {(isGameLost || isGameWon) && (
         <div className="mt-5 sm:mt-6 columns-2 dark:text-white">
           <div>
