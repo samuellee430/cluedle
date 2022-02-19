@@ -16,7 +16,7 @@ export const HistogramStats = ({ gameStats }: Props) => {
   return (
     <div className="flex justify-center my-2">
       <StatItem label="Best win" value={arrayMin(winDistribution)}/>
-      <StatItem label="Average win" value={arrayAvg(winDistribution)}/>
+      <StatItem label="Average win" value={arrayAvg(winDistribution).toFixed()}/>
     </div>
   )
 }
