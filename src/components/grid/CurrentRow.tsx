@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { MAX_WORD_LENGTH } from '../../constants/settings'
 import { Cell } from './Cell'
 import { NumberCell } from './NumberCell'
@@ -13,8 +13,15 @@ export const CurrentRow = ({ guess, className }: Props) => {
   const emptyCells = Array.from(Array(MAX_WORD_LENGTH - splitGuess.length))
   const classes = `flex justify-center mb-1 ${className}`
 
+  const showRef = useRef<null | HTMLDivElement>(null)
+  useEffect(() => {
+    if (null !== showRef.current){
+      showRef.current.scrollIntoView()
+    }
+  })
+
   return (
-    <div id="current" className={classes}>
+    <div ref={showRef} className={classes}>
       {splitGuess.map((letter, i) => (
         <Cell key={i} value={letter} />
       ))}

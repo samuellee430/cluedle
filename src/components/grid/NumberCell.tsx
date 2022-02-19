@@ -16,7 +16,7 @@ export const NumberCell = ({
   status,
   isRevealing,
   isCompleted,
-  position = 0,
+  position = 5,
 }: Props) => {
   const isFilled = value && !isCompleted
   const shouldReveal = isRevealing && isCompleted
@@ -27,6 +27,8 @@ export const NumberCell = ({
     'flex items-center justify-center mx-0.5 text-4xl font-bold rounded dark:text-white',
     {
       'pl-5': value != "10",
+      'cell-fill-animation': isFilled,
+      'cell-reveal': false,
     }
   )
 

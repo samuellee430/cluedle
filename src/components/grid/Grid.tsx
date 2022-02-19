@@ -1,8 +1,6 @@
-import { useRef } from 'react'
 import { MAX_CHALLENGES } from '../../constants/settings'
 import { CompletedRow } from './CompletedRow'
 import { CurrentRow } from './CurrentRow'
-import { EmptyRow } from './EmptyRow'
 
 type Props = {
   isGameWon: boolean
@@ -30,12 +28,13 @@ export const Grid = ({
       : []
 
   return (
-    <div className="pb-6 max-h-90 overflow-y-auto" onAnimationStart={ShowCurrent}>
+    <div className="h-90 overflow-y-auto">
       {guesses.map((guess, i) => (
         <CompletedRow
           key={i}
           guess={guess}
           isRevealing={isRevealing && guesses.length - 1 === i}
+          isGameWon={isGameWon}
         />
       ))}
       {!isGameWon && (

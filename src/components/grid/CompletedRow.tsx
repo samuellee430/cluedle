@@ -6,11 +6,12 @@ import { NumberCell } from './NumberCell'
 type Props = {
   guess: string
   isRevealing?: boolean
+  isGameWon?: boolean
 }
 
 export type CharStatus = 'absent' | 'present' | 'correct'
 
-export const CompletedRow = ({ guess, isRevealing }: Props) => {
+export const CompletedRow = ({ guess, isRevealing, isGameWon }: Props) => {
   const statuses = getGuessStatuses(guess)
   const status2: CharStatus[] = Array.from(Array(guess.length))
   guess.split('').map((_, i) => status2[i] = 'absent')
@@ -22,10 +23,11 @@ export const CompletedRow = ({ guess, isRevealing }: Props) => {
         <Cell
           key={i}
           value={letter}
-          status={status2[i]}
+          status={statuses[i]}
           position={i}
-          isRevealing={true}
+          isRevealing={isRevealing}
           isCompleted
+          isGameWon={isGameWon}
         />
       ))}
       <NumberCell

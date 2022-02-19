@@ -96,6 +96,14 @@ function App() {
   const [missingLetterMessage, setIsMissingLetterMessage] = useState('')
 
   useEffect(() => {
+    // if no game state on load,
+    // show the user the how-to info modal
+    if (!loadGameStateFromLocalStorage()) {
+      setIsInfoModalOpen(true)
+    }
+  }, [])
+
+  useEffect(() => {
     if (isDarkMode) {
       document.documentElement.classList.add('dark')
     } else {
@@ -208,9 +216,9 @@ function App() {
     setIsRevealing(true)
     // turn this back off after all
     // chars have been revealed
-    // setTimeout(() => {
-    //   setIsRevealing(false)
-    // }, REVEAL_TIME_MS * MAX_WORD_LENGTH)
+    setTimeout(() => {
+      setIsRevealing(false)
+    }, REVEAL_TIME_MS * MAX_WORD_LENGTH)
 
     const winningWord = isWinningWord(currentGuess)
 
