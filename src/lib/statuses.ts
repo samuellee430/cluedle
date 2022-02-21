@@ -29,8 +29,8 @@ export const getStatuses = (
   return charObj
 }
 
-export const getGuessStatuses = (guess: string): CharStatus[] => {
-  const splitSolution = solution.split('')
+export const getGuessStatuses = (answer: string, guess: string): CharStatus[] => {
+  const splitSolution = answer.split('')
   const splitGuess = guess.split('')
 
   const solutionCharsTaken = splitSolution.map((_) => false)

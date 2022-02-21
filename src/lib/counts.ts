@@ -1,9 +1,7 @@
-import { solution } from './words'
-
 export type CharStatus = 'absent' | 'present' | 'correct'
 
-export const getCounts = (guess: string): number => {
-  const splitSolution = solution.split('')
+export const getCounts = (answer: string, guess: string): number => {
+  const splitSolution = answer.split('')
   const splitGuess = guess.split('')
 
   let count: number = 0

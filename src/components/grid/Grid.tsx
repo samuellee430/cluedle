@@ -3,6 +3,7 @@ import { CompletedRow } from './CompletedRow'
 import { CurrentRow } from './CurrentRow'
 
 type Props = {
+  answer: string
   isGameWon: boolean
   guesses: string[]
   currentGuess: string
@@ -16,6 +17,7 @@ const ShowCurrent = () => {
 }
 
 export const Grid = ({
+  answer,
   isGameWon,
   guesses,
   currentGuess,
@@ -32,6 +34,7 @@ export const Grid = ({
       {guesses.map((guess, i) => (
         <CompletedRow
           key={i}
+          answer={answer}
           guess={guess}
           isRevealing={isRevealing}
           isGameWon={isGameWon}
