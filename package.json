@@ -29,6 +29,7 @@
     "eject": "react-scripts eject",
     "fix": "prettier --write src",
     "lint": "prettier --check src",
+    "dev": "react-scripts start",
     "start": "serve -s build",
     "test": "react-scripts test",
     "prepare": "husky install"
