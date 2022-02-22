@@ -15,14 +15,14 @@ type Props = {
 export type CharStatus = 'absent' | 'present' | 'correct'
 
 export const CompletedRow = ({ answer, guess, isRevealing, isGameWon, guessIndex }: Props) => {
-  const statuses = getGuessStatuses(guess)
+  const statuses = getGuessStatuses(answer, guess)
   const status2: CharStatus[] = Array.from(Array(guess.length))
   guess.split('').map((_, i) => status2[i] = 'absent')
   const counts = getCounts(answer, guess)
 
   return (
     <div className="flex justify-center mb-1">
-      <IndexCell value={guessIndex + '.'}/>
+      <IndexCell value={guessIndex + '.'} />
       {guess.split('').map((letter, i) => (
         <Cell
           key={i}
@@ -35,7 +35,7 @@ export const CompletedRow = ({ answer, guess, isRevealing, isGameWon, guessIndex
         />
       ))}
       <NumberCell
-      value = {counts.toString()}
+        value={counts.toString()}
       />
     </div>
   )
