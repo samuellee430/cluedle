@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import '../App.css'
 import { Grid } from '../components/grid/Grid'
 import { GAME_TITLE } from '../constants/strings'
@@ -16,6 +16,15 @@ function PageNotFound() {
         ? true
         : false
   )
+
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+    }
+  }, [isDarkMode])
+
   const guesses = ['404  ', '     ', 'OOPS!', 'PAGE ', 'NOT  ', 'FOUND']
 
   return (
@@ -34,11 +43,20 @@ function PageNotFound() {
         currentRowClassName=""
       />
       <div className="flex justify-center mb-1">
-        <p>
-          It looks like you're lost!
-          <br />
-          <a className="text-blue-500" href="/">Click here to head back to cluedle home</a>
-        </p>
+        {!isDarkMode &&
+          <p>
+            It looks like you're lost!
+            <br />
+            <a className="text-blue-500" href="/">Click here to head back to cluedle home</a>
+          </p>
+        }
+        {isDarkMode &&
+          <p className="text-white">
+            It looks like you're lost!
+            <br />
+            <a className="text-blue-500" href="/">Click here to head back to cluedle home</a>
+          </p>
+        }
       </div>
     </div>
   )
