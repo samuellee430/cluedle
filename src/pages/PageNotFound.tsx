@@ -37,7 +37,7 @@ function PageNotFound() {
         <p>
           It looks like you're lost!
           <br />
-          <a className="text-blue-500" href="https://cluedle.herokuapp.com">Click here to head back to cluedle home</a>
+          <a className="text-blue-500" href="/">Click here to head back to cluedle home</a>
         </p>
       </div>
     </div>
