@@ -251,7 +251,7 @@ function App() {
   return (
     <div className="pt-2 pb-8 max-w-7xl mx-auto sm:px-6 lg:px-8">
       <div className="flex w-96 mx-auto items-center mb-8 mt-20">
-        <h1 className="text-xl ml-2.5 grow font-bold dark:text-white">
+        <h1 className="text-xl ml grow font-bold dark:text-white">
           {GAME_TITLE}
         </h1>
         <button className="mt-2 rounded-l-md border-y-2 border-l-2 border-indigo-600 hover:border-indigo-400 shadow-sm px-2 py-2 bg-indigo-600 font-medium text-white hover:bg-indigo-400 focus:outline-none sm:text-sm"

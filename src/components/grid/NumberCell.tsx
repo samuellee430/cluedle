@@ -23,7 +23,7 @@ export const NumberCell = ({
   const animationDelay = `${position * REVEAL_TIME_MS}ms`
 
   const classes = classnames(
-    'flex items-center justify-center mx-0.5 text-4xl font-bold rounded dark:text-white',
+    'flex items-center justify-center mx-1 text-4xl font-bold rounded dark:text-white w-8',
     {
       'pl-5': value != "10",
       'cell-fill-animation': isFilled,
