@@ -1,6 +1,8 @@
 const gameStateKey = 'gameState'
 const highContrastKey = 'highContrast'
 
+const practiceGameStateKey = 'practiceGameState'
+
 type StoredGameState = {
   guesses: string[]
   solution: string
@@ -12,6 +14,15 @@ export const saveGameStateToLocalStorage = (gameState: StoredGameState) => {
 
 export const loadGameStateFromLocalStorage = () => {
   const state = localStorage.getItem(gameStateKey)
+  return state ? (JSON.parse(state) as StoredGameState) : null
+}
+
+export const savePracticeGameStateToLocalStorage = (gameState: StoredGameState) => {
+  localStorage.setItem(practiceGameStateKey, JSON.stringify(gameState))
+}
+
+export const loadPracticeGameStateFromLocalStorage = () => {
+  const state = localStorage.getItem(practiceGameStateKey)
   return state ? (JSON.parse(state) as StoredGameState) : null
 }
 

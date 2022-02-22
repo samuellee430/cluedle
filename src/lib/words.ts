@@ -14,6 +14,10 @@ export const isWinningWord = (word: string) => {
   return solution === word
 }
 
+export const isWinningPracticeWord = (answer: string, word: string) => {
+  return answer === word
+}
+
 // build a set of previously revealed letters - present and correct
 // guess must use correct letters in that space and any other revealed letters
 export const findFirstUnusedReveal = (word: string, guesses: string[]) => {
@@ -53,6 +57,11 @@ export const getWordOfDay = () => {
     solutionIndex: index,
     tomorrow: nextday,
   }
+}
+
+export const getRandomWord = () => {
+  const index = Math.floor(Math.random() * WORDS.length)
+  return WORDS[(index) % WORDS.length].toUpperCase()
 }
 
 export const { solution, solutionIndex, tomorrow } = getWordOfDay()
