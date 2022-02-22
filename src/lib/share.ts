@@ -10,7 +10,7 @@ export const shareStatus = (
 ) => {
   navigator.clipboard.writeText(
     `${GAME_TITLE} ${solutionIndex + 1} - ${lost ? 'X' : guesses.length}
-    \n\n` + generateEmojiGrid(guesses)
+    \n` + generateEmojiGrid(guesses)
   )
 }
 
