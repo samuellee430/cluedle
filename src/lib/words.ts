@@ -19,7 +19,7 @@ export const isWinningWord = (word: string) => {
 export const findFirstUnusedReveal = (word: string, guesses: string[]) => {
   const knownLetterSet = new Set<string>()
   for (const guess of guesses) {
-    const statuses = getGuessStatuses(guess)
+    const statuses = getGuessStatuses(solution, guess)
 
     for (let i = 0; i < guess.length; i++) {
       if (statuses[i] === 'correct' || statuses[i] === 'present') {
