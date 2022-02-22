@@ -52,9 +52,10 @@ export const InfoModal = ({ isOpen, handleClose }: Props) => {
       <div className="flex justify-center mb-1 mt-4">
         <Key value="A" initialKeyColor='default' onClick={() => {}}/>
         <Key value="B" initialKeyColor='black' onClick={() => {}}/>
-        <Key value="C" initialKeyColor='yellow' onClick={() => {}}/>
-        <Key value="D" initialKeyColor='green' onClick={() => {}}/>
-        <Key value="E" initialKeyColor='default' onClick={() => {}}/>
+        <Key value="C" initialKeyColor='blue' onClick={() => {}}/>
+        <Key value="D" initialKeyColor='yellow' onClick={() => {}}/>
+        <Key value="E" initialKeyColor='green' onClick={() => {}}/>
+        <Key value="F" initialKeyColor='default' onClick={() => {}}/>
       </div>
 
       <p className="mt-6 italic text-sm text-gray-500 dark:text-gray-300">
