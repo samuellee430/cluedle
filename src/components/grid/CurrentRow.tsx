@@ -17,7 +17,7 @@ export const CurrentRow = ({ guess, className, guessIndex }: Props) => {
 
   const showRef = useRef<null | HTMLDivElement>(null)
   useEffect(() => {
-    if (null !== showRef.current){
+    if (null !== showRef.current) {
       showRef.current.scrollIntoView()
     }
   })
@@ -31,7 +31,7 @@ export const CurrentRow = ({ guess, className, guessIndex }: Props) => {
       {emptyCells.map((_, i) => (
         <Cell key={i} />
       ))}
-      <NumberCell value={"0"} />
+      <NumberCell value={" "} />
     </div>
   )
 }

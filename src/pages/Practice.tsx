@@ -1,46 +1,32 @@
 import {
-  InformationCircleIcon,
   ChartBarIcon,
-  CogIcon,
+  CogIcon, InformationCircleIcon
 } from '@heroicons/react/outline'
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import '../App.css'
 import { Alert } from '../components/alerts/Alert'
 import { Grid } from '../components/grid/Grid'
 import { Keyboard } from '../components/keyboard/Keyboard'
 import { InfoModal } from '../components/modals/InfoModal'
-import { StatsModal } from '../components/modals/StatsModal'
+import { PracticeStatsModal } from '../components/modals/PracticeStatsModal'
 import { SettingsModal } from '../components/modals/SettingsModal'
 import {
-  GAME_TITLE,
-  WIN_MESSAGES,
-  GAME_COPIED_MESSAGE,
-  NOT_ENOUGH_LETTERS_MESSAGE,
-  WORD_NOT_FOUND_MESSAGE,
-  CORRECT_WORD_MESSAGE,
-} from '../constants/strings'
-import {
-  MAX_WORD_LENGTH,
-  MAX_CHALLENGES,
-  ALERT_TIME_MS,
-  REVEAL_TIME_MS,
-  GAME_LOST_INFO_DELAY,
+  ALERT_TIME_MS, MAX_CHALLENGES, MAX_WORD_LENGTH, REVEAL_TIME_MS
 } from '../constants/settings'
 import {
-  isWordInWordList,
-  isWinningWord,
-  solution,
-  findFirstUnusedReveal,
-} from '../lib/words'
-import { addStatsForCompletedGame, loadStats } from '../lib/stats'
+  GAME_TITLE, NOT_ENOUGH_LETTERS_MESSAGE, WIN_MESSAGES, WORD_NOT_FOUND_MESSAGE
+} from '../constants/strings'
 import {
-  loadGameStateFromLocalStorage,
-  saveGameStateToLocalStorage,
-  setStoredIsHighContrastMode,
-  getStoredIsHighContrastMode,
+  getStoredIsHighContrastMode, loadPracticeGameStateFromLocalStorage,
+  savePracticeGameStateToLocalStorage,
+  setStoredIsHighContrastMode
 } from '../lib/localStorage'
+import {
+  getRandomWord,
+  isWinningPracticeWord, isWordInWordList, solution
+} from '../lib/words'
 
-import '../App.css'
 
 function App() {
   const prefersDarkMode = window.matchMedia(
@@ -56,7 +42,6 @@ function App() {
   const [isHardModeAlertOpen, setIsHardModeAlertOpen] = useState(false)
   const [isWordNotFoundAlertOpen, setIsWordNotFoundAlertOpen] = useState(false)
   const [currentRowClass, setCurrentRowClass] = useState('')
-  const [isGameLost, setIsGameLost] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(
     localStorage.getItem('theme')
       ? localStorage.getItem('theme') === 'dark'
@@ -70,39 +55,31 @@ function App() {
   const [successAlert, setSuccessAlert] = useState('')
   const [isRevealing, setIsRevealing] = useState(false)
   const [guesses, setGuesses] = useState<string[]>(() => {
-    const loaded = loadGameStateFromLocalStorage()
-    if (loaded?.solution !== solution) {
+    var loaded = loadPracticeGameStateFromLocalStorage()
+    if (loaded === null) {
       return []
     }
-    const gameWasWon = loaded.guesses.includes(solution)
+    const gameWasWon = loaded.guesses.includes(loaded.solution)
     if (gameWasWon) {
       setIsGameWon(true)
-    }
-    if (loaded.guesses.length === MAX_CHALLENGES && !gameWasWon) {
-      setIsGameLost(true)
     }
     return loaded.guesses
   })
 
-  const [stats, setStats] = useState(() => loadStats())
+  const [answer, setAnswer] = useState<string>(() => {
+    var loaded = loadPracticeGameStateFromLocalStorage()
+    if (loaded === null) {
+      const word = getRandomWord()
+      savePracticeGameStateToLocalStorage({ guesses: [], solution: word })
+      return word
+    }
+    return loaded.solution
+  })
 
-  const [isHardMode, setIsHardMode] = useState(
-    localStorage.getItem('gameMode')
-      ? localStorage.getItem('gameMode') === 'hard'
-      : false
-  )
 
   const [isMissingPreviousLetters, setIsMissingPreviousLetters] =
     useState(false)
   const [missingLetterMessage, setIsMissingLetterMessage] = useState('')
-
-  useEffect(() => {
-    // if no game state on load,
-    // show the user the how-to info modal
-    if (!loadGameStateFromLocalStorage()) {
-      setIsInfoModalOpen(true)
-    }
-  }, [])
 
   useEffect(() => {
     if (isDarkMode) {
@@ -110,29 +87,11 @@ function App() {
     } else {
       document.documentElement.classList.remove('dark')
     }
-
-    if (isHighContrastMode) {
-      document.documentElement.classList.add('high-contrast')
-    } else {
-      document.documentElement.classList.remove('high-contrast')
-    }
-  }, [isDarkMode, isHighContrastMode])
+  }, [isDarkMode])
 
   const handleDarkMode = (isDark: boolean) => {
     setIsDarkMode(isDark)
     localStorage.setItem('theme', isDark ? 'dark' : 'light')
-  }
-
-  const handleHardMode = (isHard: boolean) => {
-    if (guesses.length === 0 || localStorage.getItem('gameMode') === 'hard') {
-      setIsHardMode(isHard)
-      localStorage.setItem('gameMode', isHard ? 'hard' : 'normal')
-    } else {
-      setIsHardModeAlertOpen(true)
-      return setTimeout(() => {
-        setIsHardModeAlertOpen(false)
-      }, ALERT_TIME_MS)
-    }
   }
 
   const handleHighContrastMode = (isHighContrast: boolean) => {
@@ -141,7 +100,7 @@ function App() {
   }
 
   useEffect(() => {
-    saveGameStateToLocalStorage({ guesses, solution })
+    savePracticeGameStateToLocalStorage({ guesses, solution: answer })
   }, [guesses])
 
   useEffect(() => {
@@ -157,12 +116,7 @@ function App() {
         }, ALERT_TIME_MS)
       }, 0 * REVEAL_TIME_MS * MAX_WORD_LENGTH)
     }
-    if (isGameLost) {
-      setTimeout(() => {
-        setIsStatsModalOpen(true)
-      }, GAME_LOST_INFO_DELAY)
-    }
-  }, [isGameWon, isGameLost])
+  }, [isGameWon])
 
   const onChar = (value: string) => {
     if (
@@ -179,9 +133,9 @@ function App() {
   }
 
   const onEnter = () => {
-    if (isGameWon || isGameLost) {
-      return
-    }
+    // if (isGameWon) {
+    //   return
+    // }
     if (!(currentGuess.length === MAX_WORD_LENGTH)) {
       setIsNotEnoughLetters(true)
       setCurrentRowClass('jiggle')
@@ -200,20 +154,6 @@ function App() {
       }, ALERT_TIME_MS)
     }
 
-    // enforce hard mode - all guesses must contain all previously revealed letters
-    if (isHardMode) {
-      const firstMissingReveal = findFirstUnusedReveal(currentGuess, guesses)
-      if (firstMissingReveal) {
-        setIsMissingLetterMessage(firstMissingReveal)
-        setIsMissingPreviousLetters(true)
-        setCurrentRowClass('jiggle')
-        return setTimeout(() => {
-          setIsMissingPreviousLetters(false)
-          setCurrentRowClass('')
-        }, ALERT_TIME_MS)
-      }
-    }
-
     setIsRevealing(true)
     // turn this back off after all
     // chars have been revealed
@@ -221,7 +161,7 @@ function App() {
       setIsRevealing(false)
     }, 10 * REVEAL_TIME_MS * MAX_WORD_LENGTH)
 
-    const winningWord = isWinningWord(currentGuess)
+    const winningWord = isWinningPracticeWord(answer, currentGuess)
 
     if (
       currentGuess.length === MAX_WORD_LENGTH &&
@@ -230,16 +170,10 @@ function App() {
     ) {
       setGuesses([...guesses, currentGuess])
       setCurrentGuess('')
+    }
 
-      if (winningWord) {
-        setStats(addStatsForCompletedGame(stats, guesses.length))
-        return setIsGameWon(true)
-      }
-
-      if (guesses.length === MAX_CHALLENGES - 1) {
-        setStats(addStatsForCompletedGame(stats, guesses.length + 1))
-        setIsGameLost(true)
-      }
+    if (winningWord) {
+      return setIsGameWon(true)
     }
   }
 
@@ -254,13 +188,13 @@ function App() {
         <h1 className="text-xl ml grow font-bold dark:text-white">
           {GAME_TITLE}
         </h1>
-        <button className="mt-2 rounded-l-md border-y-2 border-l-2 border-indigo-600 hover:border-indigo-400 shadow-sm px-2 py-2 bg-indigo-600 font-medium text-white hover:bg-indigo-400 focus:outline-none sm:text-sm"
+        <button className="mt-2 rounded-l-md border-y-2 border-l-2 border-indigo-600 hover:border-indigo-400 shadow-sm px-2 py-2 bg-white dark:bg-slate-900 dark:text-white font-medium text-slate hover:text-white hover:bg-indigo-400 dark:hover:bg-indigo-400 focus:outline-none sm:text-sm"
+          onClick={() => { navigate('/') }}
         >
           daily
         </button>
         <button
-          className="mt-2 rounded-r-md border-y-2 border-r-2 border-indigo-600 hover:border-indigo-400 shadow-sm px-2 py-2 mr-2 bg-white dark:bg-slate-900 font-medium dark:text-white  text-slate hover:text-white hover:bg-indigo-400 dark:hover:bg-indigo-400 focus:outline-none sm:text-sm"
-          onClick={() => { navigate('/practice') }}
+          className="mt-2 rounded-r-md border-y-2 border-r-2 border-indigo-600 hover:border-indigo-400 shadow-sm px-2 py-2 mr-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-400 focus:outline-none sm:text-sm"
         >
           practice
         </button>
@@ -278,7 +212,7 @@ function App() {
         />
       </div>
       <Grid
-        answer={solution}
+        answer={answer}
         isGameWon={isGameWon}
         guesses={guesses}
         currentGuess={currentGuess}
@@ -296,24 +230,17 @@ function App() {
         isOpen={isInfoModalOpen}
         handleClose={() => setIsInfoModalOpen(false)}
       />
-      <StatsModal
+      <PracticeStatsModal
         isOpen={isStatsModalOpen}
         handleClose={() => setIsStatsModalOpen(false)}
         guesses={guesses}
-        gameStats={stats}
-        isGameLost={isGameLost}
         isGameWon={isGameWon}
-        handleShare={() => {
-          setSuccessAlert(GAME_COPIED_MESSAGE)
-          return setTimeout(() => setSuccessAlert(''), ALERT_TIME_MS)
-        }}
-        isHardMode={isHardMode}
       />
       <SettingsModal
         isOpen={isSettingsModalOpen}
         handleClose={() => setIsSettingsModalOpen(false)}
-        isHardMode={isHardMode}
-        handleHardMode={handleHardMode}
+        isHardMode={false}
+        handleHardMode={(() => { })}
         isDarkMode={isDarkMode}
         handleDarkMode={handleDarkMode}
         isHardModeErrorModalOpen={isHardModeAlertOpen}
@@ -327,10 +254,6 @@ function App() {
         isOpen={isWordNotFoundAlertOpen}
       />
       <Alert message={missingLetterMessage} isOpen={isMissingPreviousLetters} />
-      <Alert
-        message={CORRECT_WORD_MESSAGE(solution)}
-        isOpen={isGameLost && !isRevealing}
-      />
       <Alert
         message={successAlert}
         isOpen={successAlert !== ''}
