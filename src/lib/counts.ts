@@ -11,11 +11,17 @@ export const getCounts = (answer: string, guess: string): number => {
     if (letter === splitSolution[i]) {
       count += 2
       splitSolution[i] = ''
-      return
-    } else if (splitSolution.indexOf(letter) > -1) {
-      count += 1
-      splitSolution[splitSolution.indexOf(letter)] = ''
+      splitGuess[i] = ''
     }
+  })
+
+  // handle all cases where letter is present but in incorrect location
+  splitGuess.forEach((letter, i) => {
+      if (letter !== '' && splitSolution.indexOf(letter) > -1) {
+        count += 1
+        splitSolution[splitSolution.indexOf(letter)] = ''
+        splitGuess[splitGuess.indexOf(letter)] = ''
+      }
   })
 
   return count
